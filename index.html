@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Game Hub</title>
     <script>
+        // Tic Tac Toe Variables
         let currentPlayer = 'X';
         let board = ['', '', '', '', '', '', '', '', ''];
         
@@ -17,10 +18,21 @@
                     resetGame();
                 } else if (board.includes('')) {
                     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    if (currentPlayer === 'O') {
+                        aiMove();
+                    }
                 } else {
                     alert('It\'s a draw!');
                     resetGame();
                 }
+            }
+        }
+
+        function aiMove() {
+            let availableMoves = board.map((value, index) => value === '' ? index : null).filter(val => val !== null);
+            let randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            if (randomMove !== undefined) {
+                makeMove(randomMove);
             }
         }
 
@@ -47,21 +59,83 @@
                 document.getElementById('cell' + i).innerHTML = '';
             }
         }
+
+        // Rock Paper Scissors Variables
+        function playRPS(playerChoice) {
+            const choices = ['Rock', 'Paper', 'Scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            let result;
+            if (playerChoice === computerChoice) {
+                result = 'It\'s a draw!';
+            } else if (
+                (playerChoice === 'Rock' && computerChoice === 'Scissors') ||
+                (playerChoice === 'Paper' && computerChoice === 'Rock') ||
+                (playerChoice === 'Scissors' && computerChoice === 'Paper')
+            ) {
+                result = 'You win!';
+            } else {
+                result = 'You lose!';
+            }
+            alert(`You chose: ${playerChoice}\nAI chose: ${computerChoice}\nResult: ${result}`);
+        }
+
+        // Number Guessing Game Variables
+        let randomNumber;
+        function startGuessingGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('guessResult').innerHTML = 'Guess a number between 1 and 100';
+        }
+
+        function checkGuess() {
+            const guess = parseInt(document.getElementById('guessInput').value);
+            if (guess === randomNumber) {
+                document.getElementById('guessResult').innerHTML = 'Congratulations! You guessed correctly!';
+            } else if (guess < randomNumber) {
+                document.getElementById('guessResult').innerHTML = 'Too low! Try again.';
+            } else {
+                document.getElementById('guessResult').innerHTML = 'Too high! Try again.';
+            }
+        }
     </script>
 </head>
 <body style="text-align:center; background-color:#f0f0f0; font-family:sans-serif;">
-    <h1 style="color: #333;">Tic Tac Toe</h1>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 300px; margin: 0 auto;">
-        <div id="cell0" onclick="makeMove(0)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell1" onclick="makeMove(1)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell2" onclick="makeMove(2)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell3" onclick="makeMove(3)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell4" onclick="makeMove(4)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell5" onclick="makeMove(5)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell6" onclick="makeMove(6)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell7" onclick="makeMove(7)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
-        <div id="cell8" onclick="makeMove(8)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+    <h1 style="color: #333;">Game Hub</h1>
+    
+    <!-- Tic Tac Toe Section -->
+    <div>
+        <h2 style="color: #007bff;">Tic Tac Toe</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 300px; margin: 0 auto;">
+            <div id="cell0" onclick="makeMove(0)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell1" onclick="makeMove(1)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell2" onclick="makeMove(2)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell3" onclick="makeMove(3)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell4" onclick="makeMove(4)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell5" onclick="makeMove(5)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell6" onclick="makeMove(6)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell7" onclick="makeMove(7)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+            <div id="cell8" onclick="makeMove(8)" style="width: 90px; height: 90px; background-color: #fff; border: 2px solid #333; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;"></div>
+        </div>
+        <button onclick="resetGame()" style="margin-top: 20px; padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Reset Game</button>
     </div>
-    <button onclick="resetGame()" style="margin-top: 20px; padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Reset Game</button>
+
+    <!-- Rock Paper Scissors Section -->
+    <div style="margin-top: 30px;">
+        <h2 style="color: #007bff;">Rock Paper Scissors</h2>
+        <button onclick="playRPS('Rock')" style="padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Rock</button>
+        <button onclick="playRPS('Paper')" style="padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Paper</button>
+        <button onclick="playRPS('Scissors')" style="padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Scissors</button>
+    </div>
+
+    <!-- Number Guessing Game Section -->
+    <div style="margin-top: 30px;">
+        <h2 style="color: #007bff;">Number Guessing Game</h2>
+        <button onclick="startGuessingGame()" style="padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Guessing</button>
+        <div style="margin-top: 10px;">
+            <input type="number" id="guessInput" placeholder="Enter your guess" style="padding: 10px; font-size: 20px; border-radius: 5px; border: 2px solid #007bff;">
+            <button onclick="checkGuess()" style="padding: 10px; font-size: 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Check Guess</button>
+        </div>
+        <p id="guessResult" style="margin-top: 10px; font-size: 20px; color: #333;"></p>
+    </div>
 </body>
 </html>
